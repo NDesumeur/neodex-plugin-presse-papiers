@@ -1,0 +1,25 @@
+{
+  "id": "neodex.pressepapiers",
+  "name": "Presse-papiers",
+  "version": "1.0.0",
+  "author": "NDesumeur",
+  "description": "L'historique de ce que tu copies : recherche, éléments épinglés, un clic pour recopier. Ctrl+Alt+H l'ouvre de n'importe où.",
+  "icon": "icon.png",
+  "entry": "index.js",
+  "main": "main.js",
+  "view": "pressepapiers",
+  "neobase": ">=4.0.0",
+  "type": "app",
+  "category": "Outils",
+  "mobile": false,
+  "system": false,
+  "dependencies": {},
+  "sdk": "2.1.0",
+  "commands": [
+    { "id": "open", "title": "Ouvrir l'historique du presse-papiers", "keys": "Ctrl+Alt+H", "global": true }
+  ],
+  "permissions": [
+    "system:main",
+    "shortcuts"
+  ]
+}
