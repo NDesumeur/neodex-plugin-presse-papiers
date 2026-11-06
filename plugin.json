@@ -11,12 +11,19 @@
   "neobase": ">=4.0.0",
   "type": "app",
   "category": "Outils",
+  "syncMode": "aucune",
+  "syncInfo": "Rien n'est synchronisé : l'historique du presse-papiers est propre à chaque PC.",
   "mobile": false,
   "system": false,
   "dependencies": {},
   "sdk": "2.1.0",
   "commands": [
-    { "id": "open", "title": "Ouvrir l'historique du presse-papiers", "keys": "Ctrl+Alt+H", "global": true }
+    {
+      "id": "open",
+      "title": "Ouvrir l'historique du presse-papiers",
+      "keys": "Ctrl+Alt+H",
+      "global": true
+    }
   ],
   "permissions": [
     "system:main",
