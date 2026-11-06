@@ -1,7 +1,7 @@
 {
   "id": "neodex.pressepapiers",
   "name": "Presse-papiers",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "NDesumeur",
   "description": "L'historique de ce que tu copies : recherche, éléments épinglés, un clic pour recopier. Ctrl+Alt+H l'ouvre de n'importe où.",
   "icon": "icon.png",
