@@ -1,9 +1,9 @@
 {
   "pluginId": "neodex.pressepapiers",
   "repo": "NDesumeur/neodex-plugin-presse-papiers",
-  "version": "1.0.2",
-  "sha256": "53ee9020bc687a69c3ba2e40e36c8e3db2c29e6a541b0bd17b846378e8af38c1",
-  "approvedAt": "2026-11-08T12:10:49.668Z",
+  "version": "1.0.3",
+  "sha256": "25cfc7ead1941ec180f8608197535b7e369dd600f959eb343a25a02c33457d8a",
+  "approvedAt": "2026-11-12T12:24:45.844Z",
   "neobase": ">=4.0.0",
-  "signature": "u7euMxKZbQp3DTEs78Gaxb+HqVIeK3P6LVi/wQONCljTQhu7Y+zJ8nyNNvvXOTQdnvhaFC/evQzQOq0v61eFCA=="
+  "signature": "JVC7mNyJvCXASwxRQHqyD84Eb53RMGSmAL2WrVfPgIeqUGbSrysjQINXYK00w1maDV8JIV2Iw0eA3tWXpOsWBQ=="
 }
