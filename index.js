@@ -1,22 +1,23 @@
 // Presse-papiers : l'historique de ce que tu copies (texte), avec recherche et éléments épinglés.
 // La lecture du presse-papiers se fait dans le volet système (main.js) ; ici, la liste. Ctrl+Alt+H l'ouvre de n'importe où.
 const CSS = `
-.cpWrap{max-width:900px;margin:0 auto;padding:22px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cpWrap{max-width:clamp(900px,62vw,1300px);margin:0 auto;padding:clamp(18px,1.6vw,30px);display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
 .cpBar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.cpBar input[type=search]{flex:1;min-width:200px;font:15px var(--body,monospace);color:#fff;background:#0d0820;border:2px solid var(--line2,#3a2a6e);padding:10px 12px}
-.cpBar label{display:flex;align-items:center;gap:8px;font:9px var(--title);letter-spacing:1px;color:var(--lilac,#c9bde6);cursor:var(--cp,pointer)}
-.cpBar label input{accent-color:var(--magenta);width:16px;height:16px}
+.cpBar input[type=search]{flex:1;min-width:200px;font:17px var(--body,monospace);color:#fff;background:#0d0820;border:2px solid var(--line2,#3a2a6e);padding:10px 12px}
+.cpBar label{display:flex;align-items:center;gap:8px;font:12px var(--title);letter-spacing:1px;color:var(--lilac,#c9bde6);cursor:var(--cp,pointer)}
+.cpBar label input{accent-color:var(--magenta);width:18px;height:18px}
 .cpList{display:flex;flex-direction:column;gap:8px}
 .cpItem{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;cursor:var(--cp,pointer);background:color-mix(in srgb,var(--line2,#3a2a6e) 45%,#000);box-shadow:inset 0 0 0 2px var(--line2,#3a2a6e)}
 .cpItem:hover{box-shadow:inset 0 0 0 2px var(--magenta,#e01ec8)}
 .cpItem.pin{box-shadow:inset 0 0 0 2px var(--yellow,#ffd84a)}
-.cpItem pre{flex:1;min-width:0;margin:0;font:13px Consolas,'Cascadia Mono',monospace;color:#fff;white-space:pre-wrap;word-break:break-word;max-height:7.5em;overflow:hidden}
+.cpItem pre{flex:1;min-width:0;margin:0;font:16px Consolas,'Cascadia Mono',monospace;color:#fff;white-space:pre-wrap;word-break:break-word;max-height:7.5em;overflow:hidden}
 .cpItem .cpSide{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
-.cpItem small{font-size:11px;color:var(--muted,#9a8cc0);white-space:nowrap}
+.cpItem small{font-size:14px;color:var(--muted,#9a8cc0);white-space:nowrap}
 .cpItem .cpBtns{display:flex;gap:6px}
-.cpItem button{padding:6px 9px;font-size:9px}
+.cpItem button{padding:8px 11px;font-size:12px}
 .cpEmpty{opacity:.7;text-align:center;padding:40px 0}
-.cpHead{font:9px var(--title);letter-spacing:2px;color:var(--lilac,#c9bde6);margin-top:6px}`;
+.cpWrap .hint{font-size:14px}
+.cpHead{font:12px var(--title);letter-spacing:2px;color:var(--lilac,#c9bde6);margin-top:6px}`;
 
 export default async function (ctx) {
   const view = ctx.view, el = ctx.el, host = ctx.host, ID = ctx.id;

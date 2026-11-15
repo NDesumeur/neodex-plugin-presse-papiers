@@ -12,5 +12,7 @@ module.exports = async ({ pj, sleep }) => {
   if (await clipboard.readText() !== mark) throw new Error('le clic ne recopie pas');
   await pj(`(document.querySelector('input[type=search]').value = 'autre', document.querySelector('input[type=search]').dispatchEvent(new Event('input')))`);
   const n = await pj(`document.querySelectorAll('.cpItem').length`);
+  const over = await pj(`[...document.querySelectorAll('.cpWrap *')].filter(e => e.getBoundingClientRect().right > innerWidth + 1).length`);
+  if (over) throw new Error(over + ' élément(s) débordent à droite');
   return 'capture, épingle, recopie et recherche (' + n + ' résultat) ok';
 };
