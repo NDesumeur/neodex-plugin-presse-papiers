@@ -1,7 +1,7 @@
 {
   "id": "neodex.pressepapiers",
   "name": "Presse-papiers",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "NDesumeur",
   "description": "L'historique de tout ce que tu copies dans Windows, même NeoDex en arrière-plan : recherche, éléments épinglés qui ne partent jamais, un clic pour recopier, doublons remontés en tête, pause et effacement. Ctrl+Alt+H l'ouvre de n'importe où. Les 200 derniers textes sont gardés sur ton PC, et les mots de passe copiés depuis un gestionnaire ne sont jamais enregistrés. Textes plus grands (éléments copiés, boutons, titres), largeur selon la taille de l'écran.",
   "icon": "icon.png",
