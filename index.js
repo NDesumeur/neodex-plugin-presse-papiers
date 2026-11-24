@@ -1,5 +1,5 @@
 // Presse-papiers : l'historique de ce que tu copies (texte), avec recherche et éléments épinglés.
-// La lecture du presse-papiers se fait dans le volet système (main.js) ; ici, la liste. Ctrl+Alt+H l'ouvre de n'importe où.
+// La lecture du presse-papiers se fait dans le volet système (main.js) ; ici, la liste complète. Ctrl+Alt+H ouvre la petite liste qui colle directement.
 const CSS = `
 .cpWrap{max-width:clamp(900px,62vw,1300px);margin:0 auto;padding:clamp(18px,1.6vw,30px);display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
 .cpBar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
@@ -10,6 +10,8 @@ const CSS = `
 .cpItem{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;cursor:var(--cp,pointer);background:color-mix(in srgb,var(--line2,#3a2a6e) 45%,#000);box-shadow:inset 0 0 0 2px var(--line2,#3a2a6e)}
 .cpItem:hover{box-shadow:inset 0 0 0 2px var(--magenta,#e01ec8)}
 .cpItem.pin{box-shadow:inset 0 0 0 2px var(--yellow,#ffd84a)}
+.cpItem .cpImg{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.cpItem img{max-width:min(100%,420px);max-height:180px;align-self:flex-start;border:2px solid var(--line2,#3a2a6e);background:repeating-conic-gradient(#2a2045 0 25%,#1a1230 0 50%) 0 0/16px 16px}
 .cpItem pre{flex:1;min-width:0;margin:0;font:16px Consolas,'Cascadia Mono',monospace;color:#fff;white-space:pre-wrap;word-break:break-word;max-height:7.5em;overflow:hidden}
 .cpItem .cpSide{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
 .cpItem small{font-size:14px;color:var(--muted,#9a8cc0);white-space:nowrap}
@@ -31,20 +33,21 @@ export default async function (ctx) {
   clear.title = 'Efface tout l\'historique, sauf les épinglés';
   bar.append(q, pause, clear);
   wrap.append(el('div', 'agHead', ''), bar, info, list);
-  wrap.firstChild.append(el('span', 'label', 'Presse-papiers'), el('span', 'hint', 'Ctrl+Alt+H l\'ouvre de n\'importe où · un clic recopie'));
+  wrap.firstChild.append(el('span', 'label', 'Presse-papiers'), el('span', 'hint', 'Ctrl+Alt+H : la petite liste qui colle dans l\'appli où tu es · ici, un clic recopie'));
   view.replaceChildren(wrap);
 
   let h = { items: [], paused: false }, err = '';
   const ago = t => { const s = Math.round((Date.now() - t) / 1000); return s < 60 ? 'à l\'instant' : s < 3600 ? 'il y a ' + Math.round(s / 60) + ' min' : s < 86400 ? 'il y a ' + Math.round(s / 3600) + ' h' : new Date(t).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }); };
   function render() {
     const needle = q.value.trim().toLowerCase();
-    const items = h.items.filter(x => !needle || x.text.toLowerCase().includes(needle));
+    const items = h.items.filter(x => !needle || (x.img ? 'image'.includes(needle) : x.text.toLowerCase().includes(needle)));
     const pinned = items.filter(x => x.pinned), rest = items.filter(x => !x.pinned);
     pauseCb.checked = !!h.paused;
-    info.textContent = err || (h.paused ? 'En pause : ce que tu copies n\'est pas enregistré.' : h.items.length + ' élément' + (h.items.length > 1 ? 's' : '') + ' · les 200 derniers sont gardés, les épinglés toujours · les mots de passe des gestionnaires ne sont jamais gardés');
+    info.textContent = err || (h.paused ? 'En pause : ce que tu copies n\'est pas enregistré.' : h.items.length + ' élément' + (h.items.length > 1 ? 's' : '') + ' · les 200 derniers textes et 40 dernières images sont gardés, les épinglés toujours · les mots de passe des gestionnaires ne sont jamais gardés');
     const card = x => {
       const c = el('div', 'cpItem' + (x.pinned ? ' pin' : '')), side = el('div', 'cpSide'), btns = el('div', 'cpBtns');
-      const pre = el('pre'); pre.textContent = x.text.length > 1200 ? x.text.slice(0, 1200) + '…' : x.text;
+      let pre; if (x.img) { pre = el('div', 'cpImg'); const im = el('img'); im.src = x.thumb; im.alt = 'Image ' + x.w + ' × ' + x.h; pre.append(im, el('small', '', 'Image · ' + x.w + ' × ' + x.h)); }
+      else { pre = el('pre'); pre.textContent = x.text.length > 1200 ? x.text.slice(0, 1200) + '…' : x.text; }
       const pin = el('button', 'btn px', x.pinned ? 'DÉSÉPINGLER' : 'ÉPINGLER'), del = el('button', 'btn px', '✕');
       pin.onclick = e => { e.stopPropagation(); main('clip:pin', x.id, !x.pinned).then(load); };
       del.onclick = e => { e.stopPropagation(); main('clip:remove', x.id).then(load); };
@@ -68,6 +71,10 @@ export default async function (ctx) {
   clear.onclick = async () => { if (await host.confirm('Effacer tout l\'historique (les épinglés restent) ?', { ok: 'Effacer', danger: true })) main('clip:clear').then(load); };
   ctx.neo.onPluginMain(e => { if (e.id === ID && e.name === 'clip:changed') load(); });
   ctx.commands.on('open', () => { q.value = ''; render(); q.focus(); });
+  // Ctrl+Alt+H : la petite liste au-dessus de l'appli active (dans la langue de NeoDex) ; « TOUT L'HISTORIQUE » ramène ici
+  const L = 'Coller depuis l\'historique';
+  ctx.commands.on('paste', () => main('clip:popup', host.t(L) !== L).catch(e => host.toast('Presse-papiers : ' + e.message, true)));
+  ctx.neo.onPluginMain(e => { if (e.id === ID && e.name === 'clip:tab') ctx.commands.run('open'); });
   ctx.onOpen(() => { load(); setTimeout(() => q.focus(), 50); });
   load();
 }

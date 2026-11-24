@@ -1,9 +1,9 @@
 {
   "id": "neodex.pressepapiers",
   "name": "Presse-papiers",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "author": "NDesumeur",
-  "description": "L'historique de tout ce que tu copies dans Windows, même NeoDex en arrière-plan : recherche, éléments épinglés qui ne partent jamais, un clic pour recopier, doublons remontés en tête, pause et effacement. Ctrl+Alt+H l'ouvre de n'importe où. Les 200 derniers textes sont gardés sur ton PC, et les mots de passe copiés depuis un gestionnaire ne sont jamais enregistrés. Textes plus grands (éléments copiés, boutons, titres), largeur selon la taille de l'écran.",
+  "description": "L'historique de tout ce que tu copies dans Windows, textes et images, même NeoDex en arrière-plan. Ctrl+Alt+H ouvre une petite liste au-dessus de l'appli où tu es : tu tapes pour chercher, Entrée colle directement, toujours sans mise en forme. Recherche, éléments épinglés qui ne partent jamais, doublons remontés en tête, pause et effacement. Les 200 derniers textes et 40 dernières images sont gardés sur ton PC, et les mots de passe copiés depuis un gestionnaire ne sont jamais enregistrés.",
   "icon": "icon.png",
   "entry": "index.js",
   "main": "main.js",
@@ -23,10 +23,15 @@
   "sdk": "2.1.0",
   "commands": [
     {
-      "id": "open",
-      "title": "Ouvrir l'historique du presse-papiers",
+      "id": "paste",
+      "title": "Coller depuis l'historique",
       "keys": "Ctrl+Alt+H",
-      "global": true
+      "global": true,
+      "background": true
+    },
+    {
+      "id": "open",
+      "title": "Ouvrir l'historique du presse-papiers"
     }
   ],
   "permissions": [
